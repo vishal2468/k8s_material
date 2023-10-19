@@ -5,6 +5,7 @@ BASIC CORE CONCEPT Questions
 1. List all the namespaces in the cluster
 
 
+
 2. List all the pods in all namespaces
 
 
@@ -50,27 +51,52 @@ BASIC CORE CONCEPT Questions
 
 17. Create the nginx pod and execute the simple shell on the pod
 
+k exec nginx -it sh
+k exec nginx -it -- sh
+
 18. Get the IP Address of the pod you just created
+
+k get pods -o wide
 
 19. Create a busybox pod and run command ls while creating it and check the logs
 
+k run busybox --image busybox -- ls
+k logs busybox
+
 20. If pod crashed check the previous logs of the pod
+
+k logs busybox
 
 21. Create a busybox pod with command sleep 3600
 
+k run busybox --image busybox -- sleep 3600
+
 22. Check the connection of the nginx pod from the busybox pod
+
+
 
 23. Create a busybox pod and echo message ‘How are you’ and delete it manually
 
+k run bb --image busybox -- echo 'How are you'
+
 24. Create a busybox pod and echo message ‘How are you’ and have it deleted immediately
 
+k run bb1 --image busybox --rm -it  -- echo 'How are you'
+
 25. Create an nginx pod and list the pod with different levels of verbosity
+
+k get pods
+k get pods -o wide
 
 26. List the nginx pod with custom columns POD_NAME and POD_STATUS
 
 27. List all the pods sorted by name
 
+k get pods --sort-by=.metadata.name
+
 28. List all the pods sorted by created timestamp
+
+k get pods --sort-by=.metadata.creationTimestamp
 
 
 
