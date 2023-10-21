@@ -374,31 +374,42 @@ kubectl rollout history deployment/webapp
 
 96. List Persistent Volumes in the cluster
 
+kubectl get persistentvolume
 
 97. Create a hostPath PersistentVolume named task-pv-volume with storage 10Gi, access modes ReadWriteOnce, storageClassName manual, and volume at /mnt/data and verify
 
+k create -f pv.yaml
 
 98. Create a PersistentVolumeClaim of at least 3Gi storage and access mode ReadWriteOnce and verify status is Bound
 
-	  
+k create -f pvc.yaml
 	  
  99. Delete persistent volume and PersistentVolumeClaim we just created
 
+k delete pv task-pv-volume
+k delete pvc mypvc
 
 100. Create a Pod with an image Redis and configure a volume that lasts for the lifetime of the Pod
 
-// emptyDir is the volume that lasts for the life of the podkubectl create -f redis-storage.yaml
+// emptyDir is the volume that lasts for the life of the pod
+kubectl create -f redis-storage.yaml
 
 	
 101. Exec into the above pod and create a file named file.txt with the text ‘This is called the file’ in the path /data/redis and open another tab and exec again with the same pod and verifies file exist in the same path.
 
+kubectl exec redis123 -it -- sh
 
 102. Delete the above pod and create again from the same yaml file and verifies there is no file.txt in the path /data/redis
 
+k exec redis123 -it -- sh
 
 103. Create PersistentVolume named task-pv-volume with storage 10Gi, access modes ReadWriteOnce, storageClassName manual, and volume at /mnt/data and Create a PersistentVolumeClaim of at least 3Gi storage and access mode ReadWriteOnce and verify status is Bound
 
+k create -f nginxpod.yaml
+
 104. Create an nginx pod with containerPort 80 and with a PersistentVolumeClaim task-pv-claim and has a mouth path "/usr/share/nginx/html"
+
+k create -f nginxpod.yaml
 
 ==============================================================
                               Configuration
