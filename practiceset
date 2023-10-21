@@ -149,123 +149,178 @@ Practice questions based on these concepts
 
 36. Get the pods with label information
 
+k get pods --show-labels
 
 37. Create 5 nginx pods in which two of them is labeled env=prod and three of them is labeled env=dev
 
+kubectl run nginx1 --image nginx
+kubectl label pod nginx1 env=prod
 
 38. Verify all the pods are created with correct labels
 
+kubectl get pods --show-labels
 
 39. Get the pods with label env=dev
 
+k get pods --selector env=dev
 
 40. Get the pods with label env=dev and also output the labels
 
+k get pods --show-labels --selector env=dev
 
 41. Get the pods with label env=prod
 
+k get pods --show-labels --selector env=dev
+
 42. Get the pods with label env=prod and also output the labels
 
+k get pods --selector env=prod --show-labels
 
 43. Get the pods with label env
 
+k get pods --selector env
 
 44. Get the pods with labels env=dev and env=prod
 
+k get pods -l 'env in (prod,dev)'
 
 45. Get the pods with labels env=dev and env=prod and output the labels as well
 
+kubectl get pods -l 'env in(prod,dev)' --show-labels
+
 46. Change the label for one of the pod to env=uat and list all the pods to verify
+
+kubectl label pod nginx1 env=uat --overwrite=true
 
 47. Remove the labels for the pods that we created now and verify all the labels are removed
 
+kubectl label pod nginx1 env-
+
 48. Let’s add the label app=nginx for all the pods and verify
+
+kubectl label pod nginx1 app=nginx
 
 49. Get all the nodes with labels (if using minikube you would get only master node)
 
+kubectl get node --show-labels
+
 50. Label the node (minikube if you are using) nodeName=nginxnode
+
+kubectl label node docker-desktop nodeName=nginxnode
 
 51. Create a Pod that will be deployed on this node with the label nodeName=nginxnode
 
+kubectl run nginx7 --image nginx --dry-run -o yaml > test.yaml
 
 52. Verify the pod that it is scheduled with the node selector
 
+k get pods -o wide
+
 53. Verify the pod nginx that we just created has this label
 
+k get pods --show-labels
 
 54. Annotate the pods with name=webapp
 
+k annotate pod nginx1 name=webapp
+
 55. Verify the pods that have been annotated correctly
 
+k describe pod nginx1
 
 56. Remove the annotations on the pods and verify
 
+k annotate pods nginx1 name-
 
 57. Remove all the pods that we created so far
 
+k delete pods nginx7
 
 58. Create a deployment called webapp with image nginx with 5 replicas
 
+k create deployment webapp --image nginx --replicas 5
+
 59. Get the deployment you just created with labels
 
+k get deployment --show-labels
 
 60. Output the yaml file of the deployment you just created
 
 
 61. Get the pods of this deployment
 
+kubectl get pods --selector app=webapp
 
 62. Scale the deployment from 5 replicas to 20 replicas and verify
 
+kubectl scale deployment webapp --replicas 20
 
 63. Get the deployment rollout status
 
+kubectl rollout status deployment/webapp
 
 64. Get the replicaset that created with this deployment
 
+kubectl get rs
 
 65. Get the yaml of the replicaset and pods of this deployment
 
 
 66. Delete the deployment you just created and watch all the pods are also being deleted
 
+kubectl delete deployment webapp
 
 67. Create a deployment of webapp with image nginx:1.17.1 with container port 80 and verify the image version
 
+kubectl create deployment webapp --image nginx:1.17.1 --port 80
+
 68. Update the deployment with the image version 1.17.4 and verify
 
+kubectl edit deployment webapp
 
 69. Check the rollout history and make sure everything is ok after the update
 
+kubectl rollout history deployment/webapp
 
 70. Undo the deployment to the previous version 1.17.1 and verify Image has the previous version
 
+kubectl rollout undo deployment/webapp
+kubectl get deployment webapp -o wide
 
 71. Update the deployment with the image version 1.16.1 and verify the image and also check the rollout history
 
+kubectl edit deployment webapp
 
 72. Update the deployment to the Image 1.17.1 and verify everything is ok
 
+kubectl rollout undo deployment/webapp
 
 73. Update the deployment with the wrong image version 1.100 and verify something is wrong with the deployment
 
+kubectl edit deployment webapp
 
 74. Undo the deployment with the previous version and verify everything is Ok
 
+k rollout undo deployment/webapp
 
 75. Check the history of the specific revision of that deployment
 
+k rollout history deployment/webapp
 
 76. Pause the rollout of the deployment
 
+k rollout pause deployment/webapp
 
 77. Update the deployment with the image version latest and check the history and verify nothing is going on
 
 
 78. Resume the rollout of the deployment
 
+kubectl rollout resume deployment/webapp
 
 79. Check the rollout history and verify it has the new version
+
+kubectl rollout history deployment/webapp
 
 
 80. Apply the autoscaling to this deployment with minimum 10 and maximum 20 replicas and target CPU of 85% and verify hpa is created and replicas are increased to 10 from 1
@@ -279,7 +334,7 @@ Practice questions based on these concepts
 83. Get the logs of the job just created
 
 
-84.Output the yaml file for the Job with the image busybox which echos “Hello I am from job”
+84. Output the yaml file for the Job with the image busybox which echos “Hello I am from job”
 
 
 85. Copy the above YAML file to hello-job.yaml file and create the job
